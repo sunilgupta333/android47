@@ -1,0 +1,10 @@
+<!-- Just a button that patches your Firestore doc -->
+<button onclick="toggle()">START / STOP</button>
+<script>
+async function toggle() {
+    await fetch('https://firestore.googleapis.com/v1/projects/YOUR_PROJECT/databases/(default)/documents/config/recording?key=YOUR_API_KEY', {
+        method: 'PATCH',
+        body: JSON.stringify({ fields: { isRecording: { booleanValue: true }}})
+    });
+}
+</script>
