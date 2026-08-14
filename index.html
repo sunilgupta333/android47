@@ -1,10 +1,174 @@
-<!-- Just a button that patches your Firestore doc -->
-<button onclick="toggle()">START / STOP</button>
-<script>
-async function toggle() {
-    await fetch('https://firestore.googleapis.com/v1/projects/YOUR_PROJECT/databases/(default)/documents/config/recording?key=YOUR_API_KEY', {
-        method: 'PATCH',
-        body: JSON.stringify({ fields: { isRecording: { booleanValue: true }}})
-    });
-}
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Control</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 24px;
+      padding: 20px;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 320px;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      width: 52px;
+      height: 28px;
+      appearance: none;
+      background: #ccc;
+      border-radius: 14px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.3s;
+      flex-shrink: 0;
+    }
+    input[type="checkbox"]::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 22px; height: 22px;
+      border-radius: 11px;
+      background: #fff;
+      transition: transform 0.3s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    input[type="checkbox"]:checked { background: #4CAF50; }
+    input[type="checkbox"]:checked::after { transform: translateX(24px); }
+
+    #status { font-size: 13px; color: #999; }
+
+    #gear {
+      position: fixed; top: 12px; right: 12px;
+      background: none; border: none;
+      font-size: 22px; cursor: pointer; color: #999;
+    }
+
+    /* settings */
+    #overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center; justify-content: center;
+    }
+    #overlay.open { display: flex; }
+    #box {
+      background: #fff; border-radius: 12px;
+      padding: 24px; width: 90%; max-width: 340px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    #box h2 { font-size: 16px; margin-bottom: 4px; }
+    #box input {
+      width: 100%; padding: 10px; border: 1px solid #ddd;
+      border-radius: 8px; font-size: 14px; outline: none;
+    }
+    #box button {
+      padding: 11px; border: none; border-radius: 8px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    #btn-save { background: #4CAF50; color: #fff; }
+    #btn-cancel { background: #eee; color: #333; }
+  </style>
+</head>
+<body>
+
+  <button id="gear" onclick="openSettings()">⚙️</button>
+
+  <label>
+    Turn On/Off Ambient
+    <input type="checkbox" id="chk-ambient" onchange="toggle('ambient')"/>
+  </label>
+
+  <label>
+    Turn On/Off Voice
+    <input type="checkbox" id="chk-voice" onchange="toggle('voice')"/>
+  </label>
+
+  <span id="status"></span>
+
+  <div id="overlay" onclick="handleBg(event)">
+    <div id="box">
+      <h2>Firebase Settings</h2>
+      <input id="inp-project" placeholder="Project ID (e.g. android47-d77aa)" autocorrect="off" spellcheck="false"/>
+      <input id="inp-apikey"  placeholder="Web API Key (AIzaSy...)" autocorrect="off" spellcheck="false"/>
+      <button id="btn-save"   onclick="saveSettings()">Save</button>
+      <button id="btn-cancel" onclick="closeSettings()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    const DOC   = 'config/device';
+    const F_AMB = 'isActive';
+    const F_CAL = 'isCallActive';
+    let cfg = {};
+
+    function loadCfg() {
+      try { const r = localStorage.getItem('cfg'); if (r) cfg = JSON.parse(r); } catch(e){}
+    }
+
+    function docUrl()    { return `https://firestore.googleapis.com/v1/projects/${cfg.project}/databases/(default)/documents/${DOC}?key=${cfg.apikey}`; }
+    function patchUrl(f) { return `https://firestore.googleapis.com/v1/projects/${cfg.project}/databases/(default)/documents/${DOC}?key=${cfg.apikey}&updateMask.fieldPaths=${f}`; }
+
+    async function fetchState() {
+      if (!cfg.project) return;
+      try {
+        const res  = await fetch(docUrl());
+        const data = await res.json();
+        document.getElementById('chk-ambient').checked = data.fields?.[F_AMB]?.booleanValue ?? false;
+        document.getElementById('chk-voice').checked   = data.fields?.[F_CAL]?.booleanValue ?? false;
+      } catch(e) { document.getElementById('status').textContent = 'Could not connect'; }
+    }
+
+    async function toggle(mode) {
+      const isAmb  = mode === 'ambient';
+      const field  = isAmb ? F_AMB : F_CAL;
+      const val    = document.getElementById(isAmb ? 'chk-ambient' : 'chk-voice').checked;
+      try {
+        await fetch(patchUrl(field), {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: { [field]: { booleanValue: val } } })
+        });
+        document.getElementById('status').textContent = (isAmb ? 'Ambient' : 'Voice') + ' turned ' + (val ? 'ON' : 'OFF');
+      } catch(e) {
+        document.getElementById('status').textContent = 'Failed — check settings';
+      }
+    }
+
+    function openSettings() {
+      document.getElementById('inp-project').value = cfg.project || '';
+      document.getElementById('inp-apikey').value  = cfg.apikey  || '';
+      document.getElementById('overlay').classList.add('open');
+    }
+    function closeSettings() { document.getElementById('overlay').classList.remove('open'); }
+    function handleBg(e)     { if (e.target.id === 'overlay') closeSettings(); }
+    function saveSettings() {
+      const p = document.getElementById('inp-project').value.trim();
+      const k = document.getElementById('inp-apikey').value.trim();
+      if (!p || !k) { alert('Both fields required'); return; }
+      cfg = { project: p, apikey: k };
+      localStorage.setItem('cfg', JSON.stringify(cfg));
+      closeSettings();
+      fetchState();
+    }
+
+    loadCfg();
+    fetchState();
+  </script>
+</body>
+</html>
