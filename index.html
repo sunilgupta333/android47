@@ -8,58 +8,26 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: #0f0f0f;
-    color: #e8e8e8;
-    min-height: 100vh;
-    padding: 24px 16px;
+    background: #0f0f0f; color: #e8e8e8; min-height: 100vh; padding: 24px 16px;
   }
   h1 { font-size: 18px; font-weight: 600; color: #aaa; margin-bottom: 24px; letter-spacing: 0.05em; }
   .grid { display: flex; flex-direction: column; gap: 16px; max-width: 480px; margin: 0 auto; }
-  .card {
-    background: #1c1c1e;
-    border: 1px solid #2c2c2e;
-    border-radius: 16px;
-    padding: 20px;
-  }
+  .card { background: #1c1c1e; border: 1px solid #2c2c2e; border-radius: 16px; padding: 20px; }
   .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .phone-name { font-size: 16px; font-weight: 600; }
-  .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #3a3a3c;
-    transition: background 0.3s;
-  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #3a3a3c; transition: background 0.3s; }
   .dot.online { background: #30d158; box-shadow: 0 0 6px #30d15880; }
   .toggles { display: flex; gap: 12px; }
   .toggle-group { flex: 1; }
   .toggle-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
   .toggle-btn {
-    width: 100%;
-    padding: 12px 0;
-    border-radius: 10px;
-    border: none;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    background: #2c2c2e;
-    color: #888;
-    letter-spacing: 0.02em;
+    width: 100%; padding: 12px 0; border-radius: 10px; border: none; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: all 0.15s; background: #2c2c2e; color: #888; letter-spacing: 0.02em;
   }
-  .toggle-btn.on {
-    background: #1c3a28;
-    color: #30d158;
-    border: 1px solid #30d15840;
-  }
+  .toggle-btn.on { background: #1c3a28; color: #30d158; border: 1px solid #30d15840; }
   .toggle-btn:active { transform: scale(0.97); }
   .toggle-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-  #status-bar {
-    max-width: 480px;
-    margin: 16px auto 0;
-    font-size: 12px;
-    color: #555;
-    text-align: center;
-    min-height: 18px;
-  }
+  #status-bar { max-width: 480px; margin: 16px auto 0; font-size: 12px; color: #555; text-align: center; min-height: 18px; word-break: break-word; }
   #status-bar.err { color: #ff453a; }
 </style>
 </head>
@@ -69,134 +37,90 @@
   <h1>android47</h1>
 
   <div class="card" id="card-pixel8">
-    <div class="card-header">
-      <span class="phone-name">Pixel 8</span>
-      <span class="dot" id="dot-pixel8"></span>
-    </div>
+    <div class="card-header"><span class="phone-name">Pixel 8</span><span class="dot" id="dot-pixel8"></span></div>
     <div class="toggles">
-      <div class="toggle-group">
-        <div class="toggle-label">Ambient</div>
-        <button class="toggle-btn" id="btn-pixel8Amb" onclick="toggle('pixel8Amb')" disabled>—</button>
-      </div>
-      <div class="toggle-group">
-        <div class="toggle-label">Voice</div>
-        <button class="toggle-btn" id="btn-pixel8Voice" onclick="toggle('pixel8Voice')" disabled>—</button>
-      </div>
+      <div class="toggle-group"><div class="toggle-label">Ambient</div>
+        <button class="toggle-btn" id="btn-pixel8Amb" onclick="toggle('pixel8Amb')" disabled>—</button></div>
+      <div class="toggle-group"><div class="toggle-label">Voice</div>
+        <button class="toggle-btn" id="btn-pixel8Voice" onclick="toggle('pixel8Voice')" disabled>—</button></div>
     </div>
   </div>
 
   <div class="card" id="card-s23fe">
-    <div class="card-header">
-      <span class="phone-name">Galaxy S23 FE</span>
-      <span class="dot" id="dot-s23fe"></span>
-    </div>
+    <div class="card-header"><span class="phone-name">Galaxy S23 FE</span><span class="dot" id="dot-s23fe"></span></div>
     <div class="toggles">
-      <div class="toggle-group">
-        <div class="toggle-label">Ambient</div>
-        <button class="toggle-btn" id="btn-s23feAmb" onclick="toggle('s23feAmb')" disabled>—</button>
-      </div>
-      <div class="toggle-group">
-        <div class="toggle-label">Voice</div>
-        <button class="toggle-btn" id="btn-s23feVoice" onclick="toggle('s23feVoice')" disabled>—</button>
-      </div>
+      <div class="toggle-group"><div class="toggle-label">Ambient</div>
+        <button class="toggle-btn" id="btn-s23feAmb" onclick="toggle('s23feAmb')" disabled>—</button></div>
+      <div class="toggle-group"><div class="toggle-label">Voice</div>
+        <button class="toggle-btn" id="btn-s23feVoice" onclick="toggle('s23feVoice')" disabled>—</button></div>
     </div>
   </div>
 
   <div class="card" id="card-s26">
-    <div class="card-header">
-      <span class="phone-name">Galaxy S26</span>
-      <span class="dot" id="dot-s26"></span>
-    </div>
+    <div class="card-header"><span class="phone-name">Galaxy S26</span><span class="dot" id="dot-s26"></span></div>
     <div class="toggles">
-      <div class="toggle-group">
-        <div class="toggle-label">Ambient</div>
-        <button class="toggle-btn" id="btn-s26Amb" onclick="toggle('s26Amb')" disabled>—</button>
-      </div>
-      <div class="toggle-group">
-        <div class="toggle-label">Voice</div>
-        <button class="toggle-btn" id="btn-s26Voice" onclick="toggle('s26Voice')" disabled>—</button>
-      </div>
+      <div class="toggle-group"><div class="toggle-label">Ambient</div>
+        <button class="toggle-btn" id="btn-s26Amb" onclick="toggle('s26Amb')" disabled>—</button></div>
+      <div class="toggle-group"><div class="toggle-label">Voice</div>
+        <button class="toggle-btn" id="btn-s26Voice" onclick="toggle('s26Voice')" disabled>—</button></div>
     </div>
   </div>
 </div>
 
-<div id="status-bar">signing in…</div>
+<div id="status-bar">loading…</div>
 
 <script>
 const PROJECT_ID = "android47-d77aa";
 const API_KEY    = "AIzaSyBQYUmb6xaqqUlmw6NYiUTOXftfh2V963Q";
 const DOC_PATH   = "config/device";
-
 const FIELDS = ["pixel8Amb","pixel8Voice","s23feAmb","s23feVoice","s26Amb","s26Voice"];
+const BASE = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/${DOC_PATH}`;
 
-// Current state cache — null means unknown
 const state = {};
 let idToken = null;
 
-// ── Auth ─────────────────────────────────────────────────────────────────────
-
-async function getIdToken() {
-  const rt = localStorage.getItem("android47_rt");
-  if (rt) {
-    try {
-      const r = await fetch(
-        `https://securetoken.googleapis.com/v1/token?key=${API_KEY}`,
-        { method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ grant_type: "refresh_token", refresh_token: rt }) }
-      );
-      if (r.ok) {
-        const d = await r.json();
-        localStorage.setItem("android47_rt", d.refresh_token);
-        return d.id_token;
-      }
-    } catch (_) {}
-  }
-  // First time — sign in anonymously
-  const r = await fetch(
-    `https://identitytoolkit.googleapis.com/v1/accounts:signInAnonymously?key=${API_KEY}`,
-    { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ returnSecureToken: true }) }
-  );
-  if (!r.ok) throw new Error("anon sign-in failed: " + r.status);
-  const d = await r.json();
-  localStorage.setItem("android47_rt", d.refreshToken);
-  return d.idToken;
+// Best-effort anonymous sign-in. NEVER throws — returns null on any failure so the
+// page still works against open Firestore rules (which don't need a token at all).
+async function tryGetIdToken() {
+  try {
+    const rt = localStorage.getItem("android47_rt");
+    if (rt) {
+      const r = await fetch(`https://securetoken.googleapis.com/v1/token?key=${API_KEY}`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ grant_type: "refresh_token", refresh_token: rt })
+      });
+      if (r.ok) { const d = await r.json(); localStorage.setItem("android47_rt", d.refresh_token); return d.id_token; }
+    }
+    const r = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInAnonymously?key=${API_KEY}`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ returnSecureToken: true })
+    });
+    if (r.ok) { const d = await r.json(); localStorage.setItem("android47_rt", d.refreshToken); return d.idToken; }
+  } catch (_) { /* offline / blocked / CORS — fall through to unauthenticated */ }
+  return null;
 }
-
-// ── Firestore REST ────────────────────────────────────────────────────────────
-
-const BASE = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/${DOC_PATH}`;
 
 async function readDoc() {
   const r = await fetch(`${BASE}?key=${API_KEY}`, {
     headers: idToken ? { Authorization: `Bearer ${idToken}` } : {}
   });
-  if (!r.ok) throw new Error("read HTTP " + r.status);
+  if (!r.ok) throw new Error("Firestore read HTTP " + r.status);
   const doc = await r.json();
   return doc.fields || {};
 }
 
 async function writeField(field, boolVal) {
-  const mask = `updateMask.fieldPaths=${field}`;
-  const r = await fetch(`${BASE}?key=${API_KEY}&${mask}`, {
+  const r = await fetch(`${BASE}?key=${API_KEY}&updateMask.fieldPaths=${field}`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      ...(idToken ? { Authorization: `Bearer ${idToken}` } : {})
-    },
-    body: JSON.stringify({
-      fields: { [field]: { booleanValue: boolVal } }
-    })
+    headers: { "Content-Type": "application/json", ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}) },
+    body: JSON.stringify({ fields: { [field]: { booleanValue: boolVal } } })
   });
-  if (!r.ok) throw new Error("write HTTP " + r.status);
+  if (!r.ok) throw new Error("Firestore write HTTP " + r.status);
 }
-
-// ── UI helpers ────────────────────────────────────────────────────────────────
 
 function setStatus(msg, err = false) {
   const el = document.getElementById("status-bar");
-  el.textContent = msg;
-  el.className = err ? "err" : "";
+  el.textContent = msg; el.className = err ? "err" : "";
 }
 
 function applyState(fields) {
@@ -209,49 +133,42 @@ function applyState(fields) {
     btn.className = "toggle-btn" + (val ? " on" : "");
     btn.disabled = false;
   });
-  // Light up dots for phones that have at least one field true (proxy for "app is active")
   ["pixel8","s23fe","s26"].forEach(phone => {
-    const isActive = state[`${phone}Amb`] || state[`${phone}Voice`];
+    const active = state[`${phone}Amb`] || state[`${phone}Voice`];
     const dot = document.getElementById(`dot-${phone}`);
-    if (dot) dot.className = "dot" + (isActive ? " online" : "");
+    if (dot) dot.className = "dot" + (active ? " online" : "");
   });
 }
-
-// ── Toggle ────────────────────────────────────────────────────────────────────
 
 async function toggle(field) {
   const btn = document.getElementById(`btn-${field}`);
   btn.disabled = true;
   const newVal = !state[field];
   try {
-    if (!idToken) idToken = await getIdToken();
     await writeField(field, newVal);
     state[field] = newVal;
     btn.textContent = newVal ? "ON" : "OFF";
     btn.className = "toggle-btn" + (newVal ? " on" : "");
-    // update dot
     const phone = field.replace("Amb","").replace("Voice","");
-    const isActive = state[`${phone}Amb`] || state[`${phone}Voice`];
+    const active = state[`${phone}Amb`] || state[`${phone}Voice`];
     const dot = document.getElementById(`dot-${phone}`);
-    if (dot) dot.className = "dot" + (isActive ? " online" : "");
+    if (dot) dot.className = "dot" + (active ? " online" : "");
     setStatus("saved " + new Date().toLocaleTimeString());
   } catch (e) {
-    setStatus(e.message, true);
+    setStatus(e.message + " (network blocking googleapis? try mobile data)", true);
   } finally {
     btn.disabled = false;
   }
 }
 
-// ── Poll ──────────────────────────────────────────────────────────────────────
-
 async function refresh() {
   try {
-    if (!idToken) idToken = await getIdToken();
+    if (!idToken) idToken = await tryGetIdToken();   // best-effort, never throws
     const fields = await readDoc();
     applyState(fields);
-    setStatus("updated " + new Date().toLocaleTimeString());
+    setStatus("updated " + new Date().toLocaleTimeString() + (idToken ? "" : " (no auth — open rules)"));
   } catch (e) {
-    setStatus(e.message, true);
+    setStatus(e.message + " — if 'Failed to fetch', the network is blocking googleapis.com", true);
   }
 }
 
